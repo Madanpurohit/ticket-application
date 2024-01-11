@@ -1,0 +1,13 @@
+ticket:
+  event:
+    baseUrl: http://127.0.0.1:9001
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,env,beans,conditions,mappings,loggers,metrics
+  endpoint:
+    health:
+      show-details: always
+    env:
+      show-values: always

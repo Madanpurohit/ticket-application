@@ -1,0 +1,33 @@
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: pluralsight
+      POSTGRES_PASSWORD: pluralsight
+    ports:
+      - '5432:5432'
+  events:
+    build:
+      context: ./event-service
+      dockerfile: DockerFile
+    depends_on:
+      - postgres
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+    ports:
+      - '9001:9001'
+  registrations:
+    build:
+      context: ./registration-service
+      dockerfile: DockerFile
+    depends_on:
+      - mongo
+      - events
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+    ports:
+      - '8080:8080'
